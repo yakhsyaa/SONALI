@@ -26,7 +26,7 @@
 ```sudo pip3 install -U pip```
 - ɪɴsᴛᴀʟʟ ɴᴏᴅᴇ ᴊs ʙʏ :
 ```curl -fssL https://deb.nodesource.com/setup_19.x | sudo -E bash - && sudo apt-get install nodejs -y && npm i -g npm```
-- ᴀᴅᴅ ʏᴏᴜʀ ᴄᴏᴏᴋɪᴇs ᴛᴏ [cookies/cookies.txt](https://github.com/Xkrishmishra/Tanumusic/blob/main/cookies/cookies.txt)
+- ᴀᴅᴅ ʏᴏᴜʀ ᴄᴏᴏᴋɪᴇs ᴛᴏ [cookies/cookies.txt](https://github.com/Xkrishmishra/SONALI/blob/main/SONALI/assets/cookies.txt)
 - ᴄʟᴏɴᴇ ᴛʜᴇ ʀᴇᴘᴏsɪᴛᴏʀʏ ʙʏ :
 ```git clone https://github.com/xkrishmishra/Sonali&& cd TanuMusic```
 - ɪɴsᴛᴀʟʟ ʀᴇǫᴜɪʀᴇᴍᴇɴᴛs ʙʏ :
