@@ -1,40 +1,40 @@
-import random
 import time
 import requests
 from SONALI import app
 from config import BOT_USERNAME
-
 from pyrogram.enums import ChatAction, ParseMode
 from pyrogram import filters
 
-@app.on_message(filters.command(["chatgpt","ai","ask","gpt","solve"],  prefixes=["+", ".", "/", "-", "", "$","#","&"]))
+API_URL = "https://chatgpt.apinepdev.workers.dev/?question="  # Ensure this API is working
+
+@app.on_message(filters.command(["chatgpt", "ai", "ask", "gpt", "solve"], prefixes=["+", ".", "/", "-", "", "$", "#", "&"]))
 async def chat_gpt(bot, message):
     try:
         start_time = time.time()
         await bot.send_chat_action(message.chat.id, ChatAction.TYPING)
 
         if len(message.command) < 2:
-            await message.reply_text(
-                "Example:\n\n/chatgpt Where is TajMahal?"
-            )
-        else:
-            a = message.text.split(' ', 1)[1]
-            response = requests.get(f'https://chatgpt.apinepdev.workers.dev/?question={a}')
+            return await message.reply_text("Example:\n\n`/chatgpt Where is the Taj Mahal?`", parse_mode=ParseMode.MARKDOWN)
 
-            try:
-                # Check if "results" key is present in the JSON response
-                if "answer" in response.json():
-                    x = response.json()["answer"]
-                    end_time = time.time()
-                    telegram_ping = str(round((end_time - start_time) * 1000, 3)) + " ms"
-                    await message.reply_text(
-                        f" {x}      ᴀɴsᴡᴇʀɪɴɢ ʙʏ ➛  @WORLD_ALPHA",
-                        parse_mode=ParseMode.MARKDOWN
-                    )
-                else:
-                    await message.reply_text("No 'results' key found in the response.")
-            except KeyError:
-                # Handle any other KeyError that might occur
-                await message.reply_text("Error accessing the response.")
+        question = message.text.split(' ', 1)[1]
+        response = requests.get(f"{API_URL}{question}")
+
+        if response.status_code == 200:
+            json_data = response.json()
+
+            if "answer" in json_data:
+                answer = json_data["answer"]
+                end_time = time.time()
+                response_time = round((end_time - start_time) * 1000, 3)
+
+                return await message.reply_text(
+                    f"**🤖 ChatGPT Response:**\n\n{answer}\n\n⏳ Response Time: `{response_time} ms`\n\n_Answered by @WORLD_ALPHA_",
+                    parse_mode=ParseMode.MARKDOWN
+                )
+            else:
+                return await message.reply_text("⚠️ No valid answer found in the response.")
+        else:
+            return await message.reply_text(f"⚠️ API Error: Received status code {response.status_code}")
+
     except Exception as e:
-        await message.reply_text(f"**á´‡Ê€Ê€á´Ê€: {e} ")
+        return await message.reply_text(f"⚠️ **Error:** `{str(e)}`", parse_mode=ParseMode.MARKDOWN)
